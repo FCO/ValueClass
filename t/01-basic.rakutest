@@ -1,0 +1,6 @@
+use Test;
+use ValueClass;
+
+pass "replace me";
+
+done-testing;
