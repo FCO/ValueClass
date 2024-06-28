@@ -44,6 +44,9 @@ The object will become immutable just after TWEAK. So TWEAK is your last chance 
 
 (It does not allow default values for `@` and `%` sigled attributes. You will need to use `TWEAK` to populate them)
 
+ValueType will change the default type for a attribute using the @ to Tuple and the % to ValueMap to make it possible to use Positionals and
+Associative on ValueClass.
+
 =head1 AUTHOR
 
 Fernando Corrêa de Oliveira <fco@cpan.org>
