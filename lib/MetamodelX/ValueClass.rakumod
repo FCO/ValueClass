@@ -1,5 +1,7 @@
 unit class MetamodelX::ValueClass is Metamodel::ClassHOW;
 
+method value-class(|) { True }
+
 method add_attribute(Mu \ValueClass, Attribute $attr) {
   $attr does role :: {
     method compose(|) {
