@@ -1,6 +1,8 @@
 Revision history for ValueClass
 
 {{$NEXT}}
+
+0.0.5  2024-06-28T13:44:01-07:00
     - Validate items on @ and % for it's type
 
 0.0.4  2024-06-28T12:26:21-07:00
