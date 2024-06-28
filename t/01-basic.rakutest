@@ -40,7 +40,7 @@ for
   throws-like {
     my $bla = Bla.new: :1a;
     $bla.changes-a;
-  }, message => /"Value of attribute" .*? "from a value-class ({ Bla.^name }) can't be changed"/, X::AdHoc;
+  }, message => /"Cannot assign to an immutable value"/, X::AdHoc;
 
   throws-like {
     my $bla = Bla.new: :a[];
@@ -77,5 +77,31 @@ ok !%set{Bla.new: :4a, :b<test>};
 
 my %bag := bag(Bla.new(:3a, :b<test>) xx 10);
 is %bag{Bla.new: :3a, :b<test>}, 10;
+
+my value-class TweakMutator {
+  has $.a = 42;
+
+  method TWEAK(|) { $!a = 13 }
+
+  method mutate-a($a) { $!a = $a }
+}
+
+my $a = TweakMutator.new;
+is $a.a, 13;
+
+throws-like {
+  $a.mutate-a(3.14)
+}, message => /"Cannot assign to an immutable value"/, X::AdHoc;
+
+my $which := (my $b := TweakMutator.new).WHICH;
+is $which, $b.WHICH;
+
+$which does role :: { method unique-string { 999 } }
+
+is $which.unique-string, 999;
+is $b.WHICH.unique-string, $which.unique-string;
+
+is $which, (my $c := TweakMutator.new).WHICH;
+ok !$c.WHICH.^can: "unique-string";
 
 done-testing;

@@ -1,6 +1,9 @@
 Revision history for ValueClass
 
 {{$NEXT}}
+    - Cache WHICH
+    - Use bind instead of Proxy whenever possible
+    - Let TWEAK mutate the object
 
 0.0.1  2024-06-27T21:56:34-07:00
     - Initial version

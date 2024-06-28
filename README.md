@@ -3,52 +3,27 @@
 NAME
 ====
 
-ValueClass - blah blah blah
+ValueClass - A way to create immutable value objects
 
 SYNOPSIS
 ========
 
-    ➜  ValueClass git:(main) raku -Ilib -MValueClass -e '
-
-
-    value-class Bla { has $.a = 42; has @b }
-
-    my $bla = Bla.new: :a(3.14);
-
-    say $bla.WHICH;
-
-    say $bla.a;
-
-    '
-    All attributes of a value-class should be value type
-      in method <anon> at /Users/fernando/ValueClass/lib/MetamodelX/ValueClass.rakumod (MetamodelX::ValueClass) line 16
-      in block <unit> at -e line 6
-
-    ➜  ValueClass git:(main) raku -Ilib -MValueClass -e '
-
-
-    value-class Bla { has $.a = 42; method should-not-be-allowed { $!a = 13 } }
-
-    my $bla = Bla.new: :a(3.14);
-
-    say $bla.WHICH;
-
-    say $bla.a;
-
-    $bla.should-not-be-allowed
-
-    '
-    Bla|a|Rat|157/50
-    3.14
-    Attribute values of a value-class can't be changed
-      in sub  at /Users/fernando/ValueClass/lib/MetamodelX/ValueClass.rakumod (MetamodelX::ValueClass) line 19
-      in method should-not-be-allowed at -e line 4
-      in block <unit> at -e line 12
+```raku
+value-class Bla {
+    has $.a = 42;
+}
+```
 
 DESCRIPTION
 ===========
 
-ValueClass is ...
+ValueClass creates immutable objects.
+
+If you are only worried about other people mutating your objects, you may take a look at [ValueType](https://raku.land/zef:lizmat/ValueType). But if you want to avoid letting even yourself, on your internal methods, mutate your objects, you will probably need something like this module.
+
+Classes created using the value-class keyword will create objects that will die whenever anyone try to mutate them. It will also die when the object is created with any attribute that's not a value type.
+
+The object will become immutable just after TWEAK. So TWEAK is your last chance to mutate your objects.
 
 AUTHOR
 ======
