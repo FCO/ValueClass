@@ -1,6 +1,8 @@
 Revision history for ValueClass
 
 {{$NEXT}}
+
+0.0.6  2024-06-28T14:46:10-07:00
     - Add doc about Tuple and ValueMap
 
 0.0.5  2024-06-28T13:44:01-07:00
