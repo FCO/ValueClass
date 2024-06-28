@@ -14,9 +14,44 @@ ValueClass - blah blah blah
 
 =head1 SYNOPSIS
 
-=begin code :lang<raku>
+=begin code
 
-use ValueClass;
+➜  ValueClass git:(main) raku -Ilib -MValueClass -e '
+
+
+value-class Bla { has $.a = 42; has @b }
+
+my $bla = Bla.new: :a(3.14);
+
+say $bla.WHICH;
+
+say $bla.a;
+
+'
+All attributes of a value-class should be value type
+  in method <anon> at /Users/fernando/ValueClass/lib/MetamodelX/ValueClass.rakumod (MetamodelX::ValueClass) line 16
+  in block <unit> at -e line 6
+
+➜  ValueClass git:(main) raku -Ilib -MValueClass -e '
+
+
+value-class Bla { has $.a = 42; method should-not-be-allowed { $!a = 13 } }
+
+my $bla = Bla.new: :a(3.14);
+
+say $bla.WHICH;
+
+say $bla.a;
+
+$bla.should-not-be-allowed
+
+'
+Bla|a|Rat|157/50
+3.14
+Attribute values of a value-class can't be changed
+  in sub  at /Users/fernando/ValueClass/lib/MetamodelX/ValueClass.rakumod (MetamodelX::ValueClass) line 19
+  in method should-not-be-allowed at -e line 4
+  in block <unit> at -e line 12
 
 =end code
 

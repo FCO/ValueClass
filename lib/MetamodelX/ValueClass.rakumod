@@ -29,7 +29,7 @@ method compose(Mu \ValueClass) {
   my &tweak = method (|) {
     for self.^attributes -> Attribute $attr {
       my \data = $attr.get_value: self;
-      die "All attributes of a value-class should be value type" unless data.WHICH ~~ ValueObjAt;
+      die "All attributes of value-class ({ $.^name }) should be value types" unless data.WHICH ~~ ValueObjAt;
       $attr.set_value: self, Proxy.new:
         FETCH => sub (|) { data },
         STORE => sub (|) { die "Value of attribute ({ $attr.name }) from a value-class ({ $.^name }) can't be changed" }

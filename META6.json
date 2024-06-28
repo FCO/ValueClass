@@ -12,11 +12,12 @@
   "name": "ValueClass",
   "perl": "6.d",
   "provides": {
+    "MetamodelX::ValueClass": "lib/MetamodelX/ValueClass.rakumod",
     "ValueClass": "lib/ValueClass.rakumod"
   },
   "resources": [
   ],
-  "source-url": "",
+  "source-url": "https://github.com/FCO/ValueClass.git",
   "tags": [
   ],
   "test-depends": [

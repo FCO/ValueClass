@@ -1,6 +1,64 @@
 use Test;
 use ValueClass;
 
-pass "replace me";
+eval-lives-ok 'use ValueClass; my value-class Bla {}';
+eval-dies-ok  'use ValueClass; my value-class Bla is rw {}';
+eval-lives-ok 'use ValueClass; my value-class Bla { has $.a }';
+eval-dies-ok  'use ValueClass; my value-class Bla { has $.a is rw }';
+eval-lives-ok 'use ValueClass; my value-class Bla { has $.a; has $.b; has $.c }';
+eval-dies-ok  'use ValueClass; my value-class Bla { has $.a; has $.b is rw; has $.c }';
+
+for
+  my value-class :: {
+    has $.a;
+
+    method uses-a { $!a }
+    method changes-a { $!a = 42 }
+  },
+  my value-class :: {
+    has $.a;
+    has $.b;
+
+    method uses-a { $!a }
+    method changes-a { $!a = 42 }
+  }
+-> \Bla {
+
+  lives-ok {
+    my $bla = Bla.new;
+    isa-ok $bla, Bla;
+    is $bla.a, Any;
+  }
+
+  lives-ok {
+    my $bla = Bla.new: :1a;
+    isa-ok $bla, Bla;
+    is $bla.a, 1;
+    is $bla.uses-a, 1;
+  }
+
+  throws-like {
+    my $bla = Bla.new: :1a;
+    $bla.changes-a;
+  }, message => /"Value of attribute" .*? "from a value-class ({ Bla.^name }) can't be changed"/, X::AdHoc;
+
+  throws-like {
+    my $bla = Bla.new: :a[];
+  }, message => /"All attributes of value-class ({ Bla.^name }) should be value types"/, X::AdHoc;
+}
+
+for
+  my value-class :: { has @.a }, [1, 2, 3],
+  my value-class :: { has %.a }, %(a => 1, b => 2)
+-> \Bla, $a {
+  throws-like {
+    Bla.new
+  }, message => /"All attributes of value-class ({ Bla.^name }) should be value types"/, X::AdHoc;
+
+  throws-like {
+    Bla.new: :$a
+  }, message => /"All attributes of value-class ({ Bla.^name }) should be value types"/, X::AdHoc;
+}
+
 
 done-testing;
