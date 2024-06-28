@@ -1,6 +1,7 @@
 Revision history for ValueClass
 
 {{$NEXT}}
+    - Change the default classes for @ and %
 
 0.0.3  2024-06-28T10:59:11-07:00
     - Fix email

@@ -1,8 +1,10 @@
 use MetamodelX::ValueClass;
+use ValueClass::Attribute;
 
 my package EXPORTHOW {
     package DECLARE {
         constant value-class = MetamodelX::ValueClass;
+        constant value-class-attr = ValueClass::Attribute;
     }
 }
 
@@ -18,8 +20,12 @@ ValueClass - A way to create immutable value objects
 
 value-class Bla {
     has $.a = 42;
+    has @.b;
+    has %.c;
 }
 
+say Bla.new: :b[1,2,3], :c{ a => 1 };
+# Bla.new(a => 42, b => Tuple.new(1, 2, 3), c => ValueMap.new((:a(1))))
 
 =end code
 
@@ -35,6 +41,8 @@ Classes created using the value-class keyword will create objects that will die 
 It will also die when the object is created with any attribute that's not a value type.
 
 The object will become immutable just after TWEAK. So TWEAK is your last chance to mutate your objects.
+
+(It does not allow default values for `@` and `%` sigled attributes. You will need to use `TWEAK` to populate them)
 
 =head1 AUTHOR
 

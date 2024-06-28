@@ -2,30 +2,20 @@ unit class MetamodelX::ValueClass is Metamodel::ClassHOW;
 
 method value-class(|) { True }
 
-method add_attribute(Mu \ValueClass, Attribute $attr) {
-  $attr does role :: {
-    method compose(|) {
-      die "Attributes { $.name } can't be rw on a value-class ({ ValueClass.^name })" if $.rw;
-      nextsame
-    }
-  }
-  nextsame
-}
-
 method set_rw(Mu \ValueClass) {
   die "value-class { ValueClass.^name } can't be rw"
 }
 
 method compose(Mu \ValueClass) {
   ValueClass.^add_attribute:
-    my $wattr = Attribute.new: :name<$!WHICH>, :package(ValueClass), :is_bound, :type(Str);
+    my $wattr = Attribute.new: :name<$!WHICH>, :package(ValueClass), :!has_accessor, :type(Str);
 
   ValueClass.^add_method: "WHICH", method () {
     .return with $wattr.get_value: self;
 
     my $which = ValueObjAt.new: [
       self.^name,
-      |(.^attributes.map: {
+      |(.^attributes.grep(*.name ne '$!WHICH').map: {
         |(.name.substr(2), .get_value(self).WHICH)
       } with self)
     ].join: "|";

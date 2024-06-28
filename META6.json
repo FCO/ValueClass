@@ -6,6 +6,8 @@
   "build-depends": [
   ],
   "depends": [
+    "Tuple:ver<0.0.10>:auth<zef:lizmat>",
+    "ValueMap:ver<0.0.2>:auth<zef:lizmat>"
   ],
   "description": "A way to create immutable value objects",
   "license": "Artistic-2.0",
@@ -13,7 +15,8 @@
   "perl": "6.d",
   "provides": {
     "MetamodelX::ValueClass": "lib/MetamodelX/ValueClass.rakumod",
-    "ValueClass": "lib/ValueClass.rakumod"
+    "ValueClass": "lib/ValueClass.rakumod",
+    "ValueClass::Attribute": "lib/ValueClass/Attribute.rakumod"
   },
   "resources": [
   ],
