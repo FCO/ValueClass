@@ -1,5 +1,19 @@
 unit class MetamodelX::ValueClass is Metamodel::ClassHOW;
 
+method add_attribute(Mu \ValueClass, Attribute $attr) {
+  $attr does role :: {
+    method compose(|) {
+      die "Attributes { $.name } can't be rw on a value-class ({ ValueClass.^name })" if $.rw;
+      nextsame
+    }
+  }
+  nextsame
+}
+
+method set_rw(Mu \ValueClass) {
+  die "value-class { ValueClass.^name } can't be rw"
+}
+
 method compose(Mu \ValueClass) {
   ValueClass.^add_method: "WHICH", method () {
     ValueObjAt.new: [
@@ -16,7 +30,7 @@ method compose(Mu \ValueClass) {
       die "All attributes of a value-class should be value type" unless data.WHICH ~~ ValueObjAt;
       $attr.set_value: self, Proxy.new:
         FETCH => sub (|) { data },
-        STORE => sub (|) { die "Attribute values of a value-class can't be changed" }
+        STORE => sub (|) { die "Value of attribute ({ $attr.name }) from a value-class ({ $.^name }) can't be changed" }
     }
   }
   with ValueClass.^find_method: "TWEAK" {
@@ -24,5 +38,5 @@ method compose(Mu \ValueClass) {
   } else {
     ValueClass.^add_method: "TWEAK", &tweak;
   }
-  callsame
+  nextsame
 }
