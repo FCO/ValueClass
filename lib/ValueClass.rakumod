@@ -38,7 +38,7 @@ The object will become immutable just after TWEAK. So TWEAK is your last chance 
 
 =head1 AUTHOR
 
-Fernando Corrêa de Oliveira <fernando.correa@humanstate.com>
+Fernando Corrêa de Oliveira <fco@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 

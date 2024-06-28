@@ -28,7 +28,7 @@ The object will become immutable just after TWEAK. So TWEAK is your last chance 
 AUTHOR
 ======
 
-Fernando Corrêa de Oliveira <fernando.correa@humanstate.com>
+Fernando Corrêa de Oliveira <fco@cpan.org>
 
 COPYRIGHT AND LICENSE
 =====================
