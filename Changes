@@ -1,6 +1,8 @@
 Revision history for ValueClass
 
 {{$NEXT}}
+
+0.0.2  2024-06-28T10:40:32-07:00
     - Cache WHICH
     - Use bind instead of Proxy whenever possible
     - Let TWEAK mutate the object
