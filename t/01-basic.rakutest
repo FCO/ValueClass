@@ -60,5 +60,22 @@ for
   }, message => /"All attributes of value-class ({ Bla.^name }) should be value types"/, X::AdHoc;
 }
 
+my value-class Bla {
+  has Int $.a;
+  has Str $.b;
+
+  method gist { $!b x $!a }
+}
+
+is Bla.new(:3a, :b<test>).gist, "testtesttest";
+
+my %set := set(Bla.new(:3a, :b<test>) xx 10);
+
+is %set.elems, 1;
+ok %set{Bla.new: :3a, :b<test>};
+ok !%set{Bla.new: :4a, :b<test>};
+
+my %bag := bag(Bla.new(:3a, :b<test>) xx 10);
+is %bag{Bla.new: :3a, :b<test>}, 10;
 
 done-testing;
