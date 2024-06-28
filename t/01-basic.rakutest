@@ -1,5 +1,7 @@
 use Test;
 use ValueClass;
+use Tuple;
+use ValueMap;
 
 eval-lives-ok 'use ValueClass; my value-class Bla {}';
 eval-dies-ok  'use ValueClass; my value-class Bla is rw {}';
@@ -103,5 +105,21 @@ is $b.WHICH.unique-string, $which.unique-string;
 
 is $which, (my $c := TweakMutator.new).WHICH;
 ok !$c.WHICH.^can: "unique-string";
+
+my value-class Typed {
+  has Int @.int-array;
+  has Int %.int-hash;
+}
+
+is Typed.new(:int-array[1,2,3]).int-array, Tuple.new(1,2,3);
+is Typed.new(:int-hash{:1a, :2b}).int-hash, ValueMap.new((:1a, :2b));
+
+throws-like {
+  Typed.new: :int-array[1, 2, "a"]
+}, message => /"does not pass the type constraint (Positional[Int])"/, X::AdHoc;
+
+throws-like {
+  Typed.new: :int-hash{:1a, :2c, :c<a>}
+}, message => /"does not pass the type constraint (Associative[Int])"/, X::AdHoc;
 
 done-testing;

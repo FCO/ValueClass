@@ -1,6 +1,7 @@
 Revision history for ValueClass
 
 {{$NEXT}}
+    - Validate items on @ and % for it's type
 
 0.0.4  2024-06-28T12:26:21-07:00
     - Change the default classes for @ and %

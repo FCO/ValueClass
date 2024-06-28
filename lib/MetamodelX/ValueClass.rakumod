@@ -25,10 +25,20 @@ method compose(Mu \ValueClass) {
     $which
   } unless ValueClass.^find_method("WHICH", :local);
 
-  my &tweak = method (|) {
+  my &tweak = method (|) is hidden-from-backtrace {
     for self.^attributes -> Attribute $attr {
       my \data = $attr.get_value: self;
+
       die "All attributes of value-class ({ $.^name }) should be value types" unless data.WHICH ~~ ValueObjAt;
+
+      if $attr.type ~~ Positional {
+        die "Value ({ data }) does not pass the type constraint ({ $attr.type.^name })" if data.elems && data.are !~~ $attr.type.of
+      }
+
+      if $attr.type ~~ Associative {
+        die "Value ({ data }) does not pass the type constraint ({ $attr.type.^name })" if data.elems && data.values.are !~~ $attr.type.of
+      }
+
       if data.^find_method("STORE") {
         $attr.set_value: self, Proxy.new:
           FETCH => sub (|) { data },
