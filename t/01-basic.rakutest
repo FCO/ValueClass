@@ -133,7 +133,7 @@ lives-ok {
     has @.a;
 
     method TWEAK() {
-      @!a := Tuple.new: 1, 2, 3 unless @!a
+      @!a := Tuple.new: 1, 2, 3 unless @!a.elems
     }
   }
 
@@ -146,7 +146,7 @@ lives-ok {
     has %.a;
 
     method TWEAK() {
-      %!a := ValueMap.new: (a => 1, b => 2) unless %!a
+      %!a := ValueMap.new: (a => 1, b => 2) unless %!a.elems
     }
   }
 

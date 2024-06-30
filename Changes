@@ -1,6 +1,7 @@
 Revision history for ValueClass
 
 {{$NEXT}}
+    - fix tests if using old Tuple
 
 0.0.7  2024-06-29T19:43:26-07:00
     - Customize error message when using defaults with @ and %
