@@ -1,6 +1,8 @@
 Revision history for ValueClass
 
 {{$NEXT}}
+
+0.0.8  2024-06-29T20:18:12-07:00
     - fix tests if using old Tuple
 
 0.0.7  2024-06-29T19:43:26-07:00
