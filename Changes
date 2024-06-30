@@ -1,6 +1,8 @@
 Revision history for ValueClass
 
 {{$NEXT}}
+
+0.0.7  2024-06-29T19:43:26-07:00
     - Customize error message when using defaults with @ and %
 
 0.0.6  2024-06-28T14:46:10-07:00
