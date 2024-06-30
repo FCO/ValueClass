@@ -1,6 +1,7 @@
 Revision history for ValueClass
 
 {{$NEXT}}
+    - Customize error message when using defaults with @ and %
 
 0.0.6  2024-06-28T14:46:10-07:00
     - Add doc about Tuple and ValueMap

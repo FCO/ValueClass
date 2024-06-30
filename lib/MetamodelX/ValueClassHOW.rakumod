@@ -1,4 +1,4 @@
-unit class MetamodelX::ValueClass is Metamodel::ClassHOW;
+unit class MetamodelX::ValueClassHOW is Metamodel::ClassHOW;
 
 method value-class(|) { True }
 
@@ -48,6 +48,8 @@ method compose(Mu \ValueClass) {
       }
     }
   }
+
+  &tweak.set_name: "TWEAK";
 
   with ValueClass.^find_method: "TWEAK" {
     .wrap: method (|c) { callsame; tweak self, |c }

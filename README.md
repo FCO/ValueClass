@@ -9,13 +9,19 @@ SYNOPSIS
 ========
 
 ```raku
+use ValueClass;
+
 value-class Bla {
     has $.a = 42;
     has @.b;
     has %.c;
+
+    method TWEAK() {
+        %!c := ValueMap.new: (a => 1)
+    }
 }
 
-say Bla.new: :b[1,2,3], :c{ a => 1 };
+say Bla.new: :b[1,2,3];
 # Bla.new(a => 42, b => Tuple.new(1, 2, 3), c => ValueMap.new((:a(1))))
 ```
 

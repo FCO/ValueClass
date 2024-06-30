@@ -1,10 +1,20 @@
-use MetamodelX::ValueClass;
+use MetamodelX::ValueClassHOW;
 use ValueClass::Attribute;
 
 my package EXPORTHOW {
     package DECLARE {
-        constant value-class = MetamodelX::ValueClass;
+        constant value-class = MetamodelX::ValueClassHOW;
         constant value-class-attr = ValueClass::Attribute;
+    }
+}
+
+use Tuple;
+use ValueMap;
+
+sub EXPORT(|) {
+    Map.new: {
+        Tuple    => Tuple,
+        ValueMap => ValueMap,
     }
 }
 
@@ -17,14 +27,19 @@ ValueClass - A way to create immutable value objects
 =head1 SYNOPSIS
 
 =begin code :lang<raku>
+use ValueClass;
 
 value-class Bla {
     has $.a = 42;
     has @.b;
     has %.c;
+
+    method TWEAK() {
+        %!c := ValueMap.new: (a => 1)
+    }
 }
 
-say Bla.new: :b[1,2,3], :c{ a => 1 };
+say Bla.new: :b[1,2,3];
 # Bla.new(a => 42, b => Tuple.new(1, 2, 3), c => ValueMap.new((:a(1))))
 
 =end code

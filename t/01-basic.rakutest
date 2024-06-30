@@ -1,7 +1,5 @@
 use Test;
 use ValueClass;
-use Tuple;
-use ValueMap;
 
 eval-lives-ok 'use ValueClass; my value-class Bla {}';
 eval-dies-ok  'use ValueClass; my value-class Bla is rw {}';
@@ -121,5 +119,39 @@ throws-like {
 throws-like {
   Typed.new: :int-hash{:1a, :2c, :c<a>}
 }, message => /"does not pass the type constraint (Associative[Int])"/, X::AdHoc;
+
+lives-ok {
+  my value-class Bla { has $.a = 42 }
+  is Bla.new.a, 42
+}
+
+eval-dies-ok 'my value-class Bla { has @.a = 1, 2, 3 }';
+eval-dies-ok 'my value-class Bla { has %.a = a => 1 }';
+
+lives-ok {
+  my value-class Bla {
+    has @.a;
+
+    method TWEAK() {
+      @!a := Tuple.new: 1, 2, 3 unless @!a
+    }
+  }
+
+  is Bla.new.a, Tuple.new: 1, 2, 3;
+  is Bla.new(:a[10, 20, 30]).a, Tuple.new: 10, 20, 30;
+}
+
+lives-ok {
+  my value-class Bla {
+    has %.a;
+
+    method TWEAK() {
+      %!a := ValueMap.new: (a => 1, b => 2) unless %!a
+    }
+  }
+
+  is Bla.new.a, ValueMap.new: (a => 1, b => 2);
+  is Bla.new(:a(a => 10, b => 20)).a, ValueMap.new: (a => 10, b => 20);
+}
 
 done-testing;

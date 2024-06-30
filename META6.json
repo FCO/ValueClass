@@ -14,7 +14,7 @@
   "name": "ValueClass",
   "perl": "6.d",
   "provides": {
-    "MetamodelX::ValueClass": "lib/MetamodelX/ValueClass.rakumod",
+    "MetamodelX::ValueClassHOW": "lib/MetamodelX/ValueClassHOW.rakumod",
     "ValueClass": "lib/ValueClass.rakumod",
     "ValueClass::Attribute": "lib/ValueClass/Attribute.rakumod"
   },
