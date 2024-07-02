@@ -1,6 +1,7 @@
 Revision history for ValueClass
 
 {{$NEXT}}
+    - Add custom clone method
 
 0.0.8  2024-06-29T20:18:12-07:00
     - fix tests if using old Tuple

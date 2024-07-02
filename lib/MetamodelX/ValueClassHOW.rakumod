@@ -10,20 +10,33 @@ method compose(Mu \ValueClass) {
   ValueClass.^add_attribute:
     my $wattr = Attribute.new: :name<$!WHICH>, :package(ValueClass), :!has_accessor, :type(Str);
 
-  ValueClass.^add_method: "WHICH", method () {
-    .return with $wattr.get_value: self;
+  my &clone = method (*%pars) {
+    $.bless: 
+      |($.^attributes.grep({.has_accessor && .name ne '$!WHICH'}).map({
+        |.name.substr(2) => .get_value(self)
+      }).Map),
+      |%pars,
+  }
+  &clone.set_name: "clone";
+  ValueClass.^add_method: "clone", &clone;
+  unless ValueClass.^find_method("WHICH", :local) {
+    my &which = method () {
+      .return with $wattr.get_value: self;
 
-    my $which = ValueObjAt.new: [
-      self.^name,
-      |(.^attributes.grep(*.name ne '$!WHICH').map: {
-        |(.name.substr(2), .get_value(self).WHICH)
-      } with self)
-    ].join: "|";
+      my $which = ValueObjAt.new: [
+        self.^name,
+        |(.^attributes.grep({.has_accessor && .name ne '$!WHICH'}).map: {
+          |(.name.substr(2), .get_value(self).WHICH)
+        } with self)
+      ].join: "|";
 
-    $wattr.set_value: self, $which;
+      $wattr.set_value: self, $which;
 
-    $which
-  } unless ValueClass.^find_method("WHICH", :local);
+      $which
+    }
+    &which.set_name: "WHICH";
+    ValueClass.^add_method: "WHICH", &which;
+  }
 
   my &tweak = method (|) is hidden-from-backtrace {
     for self.^attributes -> Attribute $attr {

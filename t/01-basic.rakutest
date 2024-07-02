@@ -154,4 +154,24 @@ lives-ok {
   is Bla.new(:a(a => 10, b => 20)).a, ValueMap.new: (a => 10, b => 20);
 }
 
+my value-class Clonable {
+  has $.a;
+  has $.b = 42;
+  has @.c;
+  has @.d;
+  has %.e;
+  has %.f;
+
+  method TWEAK {
+    @!d := Tuple.new: 1, 2, 3  unless @!d;
+    %!f := ValueMap.new: (:1a, :2b) unless %!f;
+  }
+}
+my $clonable = Clonable.new;
+is $clonable.clone.gist, Clonable.new.gist;
+
+is $clonable.clone(:1a, :c[10,20,30], :e{:10a, :20b}).gist, Clonable.new(:1a, :c[10,20,30], :e{:10a, :20b}).gist;
+
+is $clonable.clone(:1b, :d[10,20,30], :f{:10a, :20b}).gist, Clonable.new(:1b, :d[10,20,30], :f{:10a, :20b}).gist;
+
 done-testing;
