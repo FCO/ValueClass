@@ -21,6 +21,7 @@ method compose(Mu \ValueClass) {
   ValueClass.^add_method: "clone", &clone;
   unless ValueClass.^find_method("WHICH", :local) {
     my &which = method () {
+      return ValueObjAt.new: self.^name without self;
       .return with $wattr.get_value: self;
 
       my $which = ValueObjAt.new: [

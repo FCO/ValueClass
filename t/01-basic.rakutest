@@ -174,4 +174,6 @@ is $clonable.clone(:1a, :c[10,20,30], :e{:10a, :20b}).gist, Clonable.new(:1a, :c
 
 is $clonable.clone(:1b, :d[10,20,30], :f{:10a, :20b}).gist, Clonable.new(:1b, :d[10,20,30], :f{:10a, :20b}).gist;
 
+is value-class Valid { has ::?CLASS $.a }.new.WHICH, 'Valid|a|Valid';
+
 done-testing;
